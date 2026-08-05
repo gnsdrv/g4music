@@ -165,7 +165,7 @@ namespace G4 {
                 if (_main_list.get_height () > 0) {
                     _main_list.create_factory ();
 					_main_list.scroll_to_directly(0);
-				}
+                }
             }
         }
 
