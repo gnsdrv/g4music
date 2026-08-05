@@ -164,7 +164,7 @@ namespace G4 {
                     sort_btn.set_icon_name (SORT_MODE_ICONS[value]);
                 if (_main_list.get_height () > 0) {
                     _main_list.create_factory ();
-					_main_list.scroll_to_directly(0);
+                    _main_list.scroll_to_directly(0);
                 }
             }
         }
