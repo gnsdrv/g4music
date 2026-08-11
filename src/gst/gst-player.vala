@@ -125,7 +125,23 @@ namespace G4 {
             set {
                 _current_uri = value;
                 if (_pipeline != null) {
-                    ((!)_pipeline).uri = value;
+                    var uri = value;
+                    // GStreamer's cdda:// URI handler expects cdda://<track>
+                    // and cannot parse gvfs-style cdda://host/Track.wav URIs;
+                    // play the local FUSE path exposed by gvfs instead.
+                    // Filename.to_uri () is used rather than File.get_uri (),
+                    // because GIO maps gvfs FUSE paths back to their native
+                    // URIs and would hand cdda:// straight back.
+                    if (uri != null && ((!)uri).has_prefix ("cdda://")) {
+                        var path = File.new_for_uri ((!)uri).get_path ();
+                        if (path != null) {
+                            try {
+                                uri = Filename.to_uri ((!)path);
+                            } catch (Error e) {
+                            }
+                        }
+                    }
+                    ((!)_pipeline).uri = uri;
                     if (AtomicInt.compare_and_exchange (ref _audio_sink_requested, 1, 0))
                         update_audio_sink ();
                 }
