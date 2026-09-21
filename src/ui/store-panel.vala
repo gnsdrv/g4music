@@ -668,7 +668,9 @@ namespace G4 {
                 _app.current_item = index;
             } else if (_current_list.playable) {
                 var playlist = _current_list.get_as_playlist ();
-                _app.current_item = _app.insert_after_current (playlist) + index;
+                _app.current_item = 0;
+                _app.insert_to_queue (playlist, _app.current_item);
+                _app.current_item = index;
             }
             if (!_app.player.playing) {
                 _app.player.play ();
