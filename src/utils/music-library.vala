@@ -262,9 +262,9 @@ namespace G4 {
     }
 
     public class MusicLibrary : Object {
-        private HashTable<unowned string, Album> _albums = new HashTable<unowned string, Album> (str_hash, str_equal);        
-        private HashTable<unowned string, Artist> _artists = new HashTable<unowned string, Artist> (str_hash, str_equal);        
-        private HashTable<unowned string, Playlist> _playlists = new HashTable<unowned string, Playlist> (str_hash, str_equal);        
+        private HashTable<string, Album> _albums = new HashTable<string, Album> (str_hash, str_equal);        
+        private HashTable<string, Artist> _artists = new HashTable<string, Artist> (str_hash, str_equal);        
+        private HashTable<string, Playlist> _playlists = new HashTable<string, Playlist> (str_hash, str_equal);        
 
         public bool empty {
             get {
@@ -306,7 +306,7 @@ namespace G4 {
             var artist_names = split_artists (music.artist_name);
             bool added_artists = false;
             foreach (var artist_name in artist_names) {
-                unowned string trimmed = artist_name.strip ();
+                string trimmed = artist_name.strip ();
                 if (trimmed.length == 0) continue;
                 unowned string art_key = trimmed;
                 Artist artist;
@@ -323,7 +323,7 @@ namespace G4 {
         }
 
         private string[] split_artists (string name) {
-            var separators = new string[] { " / ", " feat. ", " feat ", " ft. ", " ft ", " ; " };
+            var separators = new string[] { " / ", " feat. ", " feat ", " ft. ", " ft ", " ; ", "; " };
             var parts = new GenericArray<string> (8);
             parts.add (name);
             foreach (var sep in separators) {
