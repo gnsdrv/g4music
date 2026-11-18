@@ -11,13 +11,14 @@ RUN dnf install -y \
     gettext-devel glib2-devel desktop-file-utils \
     && dnf clean all
 
-WORKDIR /build
+WORKDIR /src
 COPY . .
 
-# Build with meson
-RUN meson setup build --buildtype=release \
-    && meson compile -C build \
-    && meson install -C build
+# Build with meson in a directory outside the copied source tree, so a host
+# build/ directory (as created by the README instructions) is never reused.
+RUN meson setup /tmp/g4music-build --buildtype=release \
+    && meson compile -C /tmp/g4music-build \
+    && meson install -C /tmp/g4music-build
 
 # Runtime stage (optional)
 FROM fedora:latest AS runtime
